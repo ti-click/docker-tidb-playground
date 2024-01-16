@@ -1,12 +1,10 @@
-FROM centos:7.9.2009
+FROM rockylinux:9.3.20231119
 
-ARG TIDB_VERSION=v6.5.0
+ARG TIDB_VERSION=v7.5.0
 
 VOLUME /tidb-data
 
-RUN yum -y update \
-  && yum -y install curl \
-  && localedef -f UTF-8 -i ja_JP ja_JP \
+RUN dnf -y update && dnf -y install glibc-langpack-ja procps-ng psmisc \
   && ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime \
   && curl --proto '=https' --tlsv1.2 -sSf https://tiup-mirrors.pingcap.com/install.sh | sh \
   && /root/.tiup/bin/tiup install pd:${TIDB_VERSION} tidb:${TIDB_VERSION} tiflash:${TIDB_VERSION} tikv:${TIDB_VERSION} prometheus:${TIDB_VERSION} \
@@ -14,9 +12,9 @@ RUN yum -y update \
   && ln -sf /tidb-data /root/.tiup/data/devenv
 
 ENV PATH=/root/.tiup/bin:$PATH \
-    LANG="ja_JP UTF-8" \
+    LANG="ja_JP UTF8" \
     LANGUAGE="ja_JP:ja" \
-    LC_ALL="ja_JP.UTF-8" \
+    LC_ALL="ja_JP.UTF8" \
     TZ="Asia/Tokyo"
 
 EXPOSE 2379 3000 4000 9090 10080

@@ -1,14 +1,12 @@
 version: "3"
 services:
   tidb:
-    environment:
-      TZ: "Asia/Tokyo"
-    image: ubuntu:latest
     build:
       context: .
       dockerfile: Dockerfile.tidb
-    command: /bin/sh -c "exec /root/.tiup/bin/tiup playground ${TIDB_VERSION} --host 0.0.0.0 --tag=devenv --db 1 --kv 1 --pd 1 --tiflash 1"
+    command: /bin/sh -c "exec /root/.tiup/bin/tiup playground ${TIDB_VERSION} --host 0.0.0.0 --tag=devenv --db 1 --kv 1 --pd 1 --tiflash 0"
     ports:
-      - "4000:4000" # tidb(mysql protocol)
-      - "2379:2379" # pd/dashboard
-      - "3000:3000" # grafana
+      - "4000:4000"   # tidb(mysql protocol)
+      - "10080:10080" # tidb(http protocol)
+      - "2379:2379"   # pd/dashboard
+      - "3000:3000"   # grafana
