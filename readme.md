@@ -10,7 +10,7 @@ Building a local development environment using the tidb-playground docker image 
 `docker-tidb-playground` installs the latest TiDB version by default.
 If you need to specify the TiDB version, update the `.env` file as follows.
 
-- Edu .env
+- edit .env
 ```
 TIDB_VERSION=v6.5.0
 ```
